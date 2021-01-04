@@ -2,8 +2,6 @@
 
 *STATUS: EARLY DRAFT*
 
-*Making a slight change so I can submit a PR for review by a few folks*
-
 **Authors:**
 * Greg Whitworth, Salesforce
 
@@ -72,6 +70,12 @@ The [accent-color proposal](https://github.com/mfreed7/accent-color/blob/master/
 ### Example:
 
 # INSERT EXAMPLE HERE
+
+*NOTE: I have a rough web component that utilizes the pseudo indicator and replicates the base origin [here](https://codepen.io/gregwhitworth/project/full/DkGOoY). I'll be adding in examples that recreate the prior ones and list any potential limitations that are identified with this approach at this stage.*
+
+## Open Questions
+
+* OPEN QUESTIONS HERE
 
 ## Other Solutions Considered
 
