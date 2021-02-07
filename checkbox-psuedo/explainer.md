@@ -1,64 +1,64 @@
 # Indicator Psuedo Element
 
-*STATUS: EARLY DRAFT*
+* **STATUS:** Explainer
+* **Expected Venue:** CSSWG
 
 **Authors:**
 * Brandon Ferrua, Salesforce
 * Greg Whitworth, Salesforce
 
 ## Overview
-Native controls and components have been a long-standing issue for [web developers and designers](http://gwhitworth.com/blog/2019/07/form-controls-components/). A few of the more commonly re-created controls are `<input type="checkbox">` and 
-`<input type="radio">`. 
+Native controls and components have been a long-standing pain point for [web developers and designers](http://gwhitworth.com/blog/2019/07/form-controls-components/). Even though the behavior and general visual appearance of checkboxes and radio controls is consistent across user agents, they still rank #2 & #4 in the top re-created controls due to the lack of styling capabilities.
 
-*Note: All examples in this document will utilize the checkbox for consistency, but the radio anatomy of the indicator itself is the same and thus is included in the normative spec text*
+![Top controls re-created by web developers](top-controls-recreated.png)
 
-To enable the capability that authors seek it requires a definition of new parts and a way to ensure an interopable approach to style them.
+To enable authors to fully style a checkbox and radio control it will require definitions of new parts and a way to ensure an interopable approach to style them.
 
-## the `base` keyword value for the `appearance` property
-User-agents are encouraged to provide their own solution that matches their own preferred design systems. There are often valid arguments for a user-agent's built controls/components to match the OS they are rendered on.
-However, if the author wishes to make a built-in control or component match their site's design the author must re-create it. This not only is a poor developer experience but can also lead a degraded user-experience.
+_**Note:** All examples in this document will utilize the checkbox for consistency, but the radio anatomy of the indicator itself is the same and thus is included in the normative spec text_
 
-In order to allow an author to opt-in to being able to customize a built-in component or control we're proposing a `base` keyword value to the [appearance](https://drafts.csswg.org/css-ui-4/#appearance-switching) property. This will inform the 
-user-agent to load in the standardized styles for the control/component in order to ensure an interoperable starting point 
-for authors to begin styling from.
+## the `::indicator` pseudo-element
+The `indicator` pseudo-element provides a visual representation of a checkbox's or radio's current state.
+
+The `::indicator` pseudo-element will be a child of the following [HTMLInputElements](https://html.spec.whatwg.org/multipage/input.html#the-input-element)
+
+* [Checkbox state](https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=checkbox))
+* [Radio Button state](https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=radio))
+
+When paired with the `:checked` and `:indeterminate` pseudo-classes an author can adequately provide the 
+end-user with a custom tailored experience for all states of each control.
+
+## The `base` keyword value for the `appearance` property
+While the `indicator` pseudo-element provides authors with a selector to a part within the control, it doesn't allow them to fully style the control due to the lack of interoperability across user agents and operating systems.
+
+In order to allow an author to **opt-in** to being able to customize a built-in component or control we're proposing a `base` keyword value to the [appearance](https://drafts.csswg.org/css-ui-4/#appearance-switching) property. This will inform the 
+user-agent to use the standardized styles and DOM structure for the control/component in order to ensure an interoperable starting point for authors.
 
 <dl>
     <dt>
         <dfn><code>base</code></dfn>
-        <dd>Similar to the <a href="https://drafts.csswg.org/css-ui-4/#ref-for-valdef-appearance-none" target="_blank">none</a> value; the element is rendered following the usual rules of CSS. Replaced elements other than <a href="https://drafts.csswg.org/css-ui-4/#widget" target="_blank">widgets</a> are not affected by this and remain replaced elements. The control, will then load in the standardized 
-        graphic representation and base stylesheet shipped by all user agents.</dd>
+        <dd>Similar to the <a href="https://drafts.csswg.org/css-ui-4/#ref-for-valdef-appearance-none" target="_blank">none</a> value; the element is rendered following the usual rules of CSS. Replaced elements other than <a href="https://drafts.csswg.org/css-ui-4/#widget" target="_blank">widgets</a> are not affected by this and remain replaced elements. The widget, <strong>MUST</strong> render using the standardized DOM structure and computed values for the element.
+        </dd>
     </dt>
 </dl>
 
-
-## the `::indicator` pseudo-element
-In order to enable authors to adjust the user agent provided checkbox and radio input types, we're proposing 
-the `indicator` pseudo-element. This pseudo-element provides a visual representation of a checkbox's or radio`s current state.
-
-When paired with the `:checked` and `:indeterminate` pseudo-classes an author can adequately provide the 
-end-user with a custom tailored experience for all possible states of each control.
-
-## Use cases
-The [accent-color proposal](https://github.com/mfreed7/accent-color/blob/master/proposal.md#input-typecheckbox) highlighted a need from authors that wanted to utilize the natively shipping controls but adjust the colors to match their site's design. Currently, in order to achieve this, the author will need to set `appearance: none` on the input and provide a replacement checkbox that they have created, often using additional assets from graphic software. 
+![Checkbox & Radio with & without the base keyword](w-wo-base.png)
 
 # Putting it all together
-
-In order to achieve the necessary end result for the author, it requires the combination of the `base` keyword, 
-which instantiates the `base` origin. Upon that instantiation it has a profound impact on the `indicator` pseudo-element. 
 
 If the `appearance` property computes to `base` for the following elements:
 * [HTMLInputElement](https://html.spec.whatwg.org/multipage/input.html#the-input-element) in a [Checkbox state](https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=checkbox))
 * [HTMLInputElement](https://html.spec.whatwg.org/multipage/input.html#the-input-element) in a [Radio Button state](https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=radio))
 
-The user-agent **MUST** make the immediate child of the `::indicator` pseudo-element the following SVG:
+The user-agent **MUST** make the immediate child of the `::indicator` pseudo-element the following SVG for the [HTMLInputElement](https://html.spec.whatwg.org/multipage/input.html#the-input-element) in a [Checkbox state](https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=checkbox)):
 
 ```
-<svg data-name="Layer 1" viewBox="0 0 187.44 231.39" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+<svg id="indicator" viewBox="0 0 187.44 231.39" width="100%" height="100%">
     <path d="m7.54 136.22 58.3 76.55s39-110.33 114.15-207"/>
+    <rect width="50%" height="5%" y="50%" x="30%" />
 </svg>
 ```
 
-And the following styles **MUST** be placed in the user-agent's stylesheet:
+And the following styles **MUST** be the computed value in the user-agent's stylesheet:
 
 ```
 input[type=checkbox] {
@@ -66,6 +66,7 @@ input[type=checkbox] {
     width: 13px; 
     height: 13px;
     border: 1px solid #888;
+    border-radius: 2px;
     box-sizing: border-box;
     fill: none;
     stroke: #231f20;
@@ -76,35 +77,52 @@ input[type=checkbox] {
 
 input[type=checkbox]::indicator {
     display: none;
-}
-
-input[type=checkbox]::indicator,
-input[type=checkbox]:checked::indicator {
-    width: 6px;
-    height: 6px;
-    stroke-width: 60px;
+    fill: none;
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width:17px;
     align-items: center;
+    padding: 0 25% 0 25%;
     justify-content: center;
     margin: -2px 0 0 -2px;
+}
+
+input[type=checkbox]:checked::indicator,
+input[type=checkbox]:indeterminate::indicator {
+    display: flex;
+}
+
+input[type=checkbox]:indeterminate::indicator rect {
+    display: block;
+}
+
+input[type=checkbox]:indeterminate::indicator path {
+    display: none;
+}
+
+input[type=checkbox]:checked::indicator path {
+    display: block;
+}
+
+input[type=checkbox]::indicator > * {
+    display: none;
 }
 
 /* MORE STYLES TO BE DEFINED AT A LATER DATE */
 
 ```
+By providing an interoperable DOM structure and computed styles the pseudo-element is fully styleable. 
 
-By providing an interoperable base stylesheet, anatomy and default graphic this enables the pseudo-element fully styleable. 
 Below are some examples of this in practice:
 
 ![Examples of the indicator pseudo-element in practice](indicator-examples.png)
 
-**Note:** *These examples can be seen in this Codepen Project [here](https://codepen.io/gregwhitworth/project/full/DkGOoY). It was simply built for styling explorations 
-and not to be a production ready checkbox. And while only showing checkbox, the anatomy of the radio indicator itself is the same as a checkbox (not the radio group, but the indicator itself)*
+**Note:** *These examples can be seen in this Codepen Project [here](https://codepen.io/gregwhitworth/project/full/DkGOoY).
 
 ## Open Questions
 
-* Should the base.css stylesheet be a new standardized specification in the CSS WG that is available for download as a .css file for download by user-agents?
-* How should focus rects be handled (current proposal is to leave them as user-agent defined until focus-rect primitives are added to the platform to achieve similar experiences currently shipping)?
-* The `d` attribute is a presentational and so technically it can be used as a way to change the graphic that is rendered. However it doesn't produce a box and thus many usecases are lost. How do we want to handle this?
+* The `d` attribute is a presentational but in order to utilize it there would need to be another pseudo element on the path(s). There would also need to be a solution to viewbox adjustment from CSS ([Issue 7 in FXTF](https://github.com/w3c/fxtf-drafts/issues/7))
+* While this pseudo-element gets the web platform closer to what authors desire there are still some advanced use cases this does not enable. Should we introduce a new `<checkbox>` element that enables these complex scenarios?
 
 ## Other Solutions Considered
 
@@ -122,6 +140,10 @@ the graphic using an image or the Houdini `paint()` method. This has negative im
 
 * **Unknown parent styles & anatomy:** While the pseudo element and application of the graphic would be standard. The author would have no insight into how its ancestor tree would be structured nor styled. One concrete example of this was trying to replicate a scenario where the pseudo-element would reside outside of the input but there was an ancestor that couldn't be reached between the pseudo-element & the input. This resulted in the psuedo-element being clipped.
 * **Needing graphic design capabilities:** Using a background-image unlocked some scenarios but it still required an author to produce and asset to replace it. Looking at the accent-color scenarios again the authors had no issues with the graphic but simply the colors. Forcing them to create a graphic to meet their needs just perpetuates the problem.
+
+## Resources
+
+* [Presentation](https://docs.google.com/presentation/d/1UetqOgKR6zcKaqahftirCleh7HTjka1qvem7qP8RTV8/edit?usp=sharing) of the indicator pseudo element to the CSSWG
 
 ## Acknowledgements
 
