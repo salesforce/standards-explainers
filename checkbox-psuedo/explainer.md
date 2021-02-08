@@ -61,6 +61,10 @@ The user-agent **MUST** make the immediate child of the `::indicator` pseudo-ele
 And the following styles **MUST** be the computed value in the user-agent's stylesheet:
 
 ```
+
+/* NOTE: THIS IS AN EARLY DRAFT OF THE STYLES AND WILL EVOLVE
+         BASED ON FEEDBACK FROM USER-AGENTS AND COMPONENT AUTHORS */
+
 input[type=checkbox] {
     display: flex;
     width: 13px; 
@@ -111,6 +115,7 @@ input[type=checkbox]::indicator > * {
 /* MORE STYLES TO BE DEFINED AT A LATER DATE */
 
 ```
+
 By providing an interoperable DOM structure and computed styles the pseudo-element is fully styleable. 
 
 Below are some examples of this in practice:
