@@ -1,4 +1,4 @@
-# Indicator Psuedo Element
+# Indicator Pseudo Element
 
 * **STATUS:** Explainer
 * **Expected Venue:** CSSWG
