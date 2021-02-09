@@ -143,7 +143,7 @@ designs that are found across the web today as you can only propogate certain CS
 When initially exploring the password-reveal pseudo-element we defined it to be a background image. This would allow the author to replace 
 the graphic using an image or the Houdini `paint()` method. This has negative implications in that it came with the following constraints:
 
-* **Unknown parent styles & anatomy:** While the pseudo element and application of the graphic would be standard. The author would have no insight into how its ancestor tree would be structured nor styled. One concrete example of this was trying to replicate a scenario where the pseudo-element would reside outside of the input but there was an ancestor that couldn't be reached between the pseudo-element & the input. This resulted in the psuedo-element being clipped.
+* **Unknown parent styles & anatomy:** While the pseudo element and application of the graphic would be standard. The author would have no insight into how its ancestor tree would be structured nor styled. One concrete example of this was trying to replicate a scenario where the pseudo-element would reside outside of the input but there was an ancestor that couldn't be reached between the pseudo-element & the input. This resulted in the pseudo-element being clipped.
 * **Needing graphic design capabilities:** Using a background-image unlocked some scenarios but it still required an author to produce and asset to replace it. Looking at the accent-color scenarios again the authors had no issues with the graphic but simply the colors. Forcing them to create a graphic to meet their needs just perpetuates the problem.
 
 ## Resources
