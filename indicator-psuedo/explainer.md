@@ -122,6 +122,25 @@ Below are some examples of this in practice:
 
 ![Examples of the indicator pseudo-element in practice](indicator-examples.png)
 
+Here is what the CSS the author would need to write in order to achieve example 3:
+
+```
+[type=checkbox] { 
+    appearance: base; 
+    width: 30px; 
+    height: 30px; 
+}
+
+[type=checkbox]::indicator {
+    position: absolute;
+    stroke: #C2DB95;
+    top: -10px;
+    right: -10px;
+    stroke-width: 50px;
+    filter: drop-shadow( 4px 4px 0 rgba(0, 0, 0, 1));
+ }
+```
+
 **Note:** *These examples can be seen in this Codepen Project [here](https://codepen.io/gregwhitworth/project/full/DkGOoY).
 
 ## Open Questions
