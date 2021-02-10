@@ -1,32 +1,36 @@
 ## Explainer
 
-Errors - or Exceptions - can be swallowed within the callbacks used in the `*Observer` APIs. This work provides the user some control to capture and handle errors. It's intentionally designed to be direct and without changes to the error events.
+- __Authors__: [Leo Balter](@leobalter), [Greg Whitworth](@gregwhitworth)
+- __Expected graduation venue__: WHATWG
+- __Status__: Early Draft
+
+The `*Observer` APIs operate with callback functions that are triggered after observation of many events. There isn't much that can be done today in these APIs to capture and handle errors that happen either on the respective observations or abrupt completions that happen in the callback functions. These exceptions might end up leaking up to the Window's error event, potentially causing an application random hazards if they are not properly handled.
+
+Note: While the problem denoted above is experienced by any observer (Mutation, Performance, etc.), this explainer will be using the `ResizeObserver` for examples in order to scope the scenarios for ease of reader consumption.
 
 ### Expected Exceptions in the Observer API
 
-Broadly speaking, there are three kinds of errors to be captured for the Observer model:
+There are at least three kinds of errors to be considered in the Observer model:
 
 #### Configuration
 
-Those are the exceptions thrown when you're setting up a new instance or setting elements to be observed. E.g. on the immediate call for `o.observe(elem)`. Those are immediate errors and can be be captured today.
+Those are the exceptions thrown when you're setting up a new instance or setting elements to be observed, e.g.: on the immediate call for `o.observe(elem)`. Those are immediate errors and can be be captured today.
 
-Using the [ResizeObserver](https://drafts.csswg.org/resize-observer/#resize-observer-interface) as an example, we can illustrate this exception giving an invalid parameter as the callback function.
+Another example would be using an invalid argument for the `ResizeObserver`'s callback function. Users can handle this exception today, there is nothing to be done here.
 
 ```js
 new ResizeObserver({}); // TypeError
 ```
 
-Users can handle this exception today, there is nothing to be done here.
-
 #### <a id="effects"></a> Effects within the observable elements
 
 Errors due to the resize effect of observable elements and the resize loop (over the boundaries, etc).
 
-Some of these errors may already be recognized by each of Observer API's explainer. E.g. [ResizeObserver](https://github.com/WICG/resize-observer/blob/master/explainer.md#error-handling).
+Some of these errors may already be recognized by each of Observer API's explainer, like the ResizeObserver's [Deliver Resize Loop error notification](https://drafts.csswg.org/resize-observer-1/#deliver-resize-error).
 
 #### Callback executions
 
-Execution errors of the ResizeObserver callback, when it's called. This seems like a little hazard bubbling out of the callback function execution.
+Execution errors when the Observer callback function is called. When unhandled, they bubble out of the callback function execution and eventually hit as an window error.
 
 One way to exemplify this would be an immediate throwing expression:
 
