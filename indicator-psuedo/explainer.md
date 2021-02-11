@@ -163,9 +163,9 @@ As an extension point, we could introduce an additional pseudo that maps to the 
 ### Why not just use ::before or ::after?
 
 Checkboxes are simple enough that you can create a believable one with nothing but an empty div and styling the `::before` or `::after` with generated content. However:
-    - Most other controls are not that simple and will need a somewhat complex anatomy that cannot be represented by ::before and ::after alone. Since this is part of a system, being consistent has value.
-    - Changing the content of `::before` and `::after` is done through stylesheets. If/when we add a mechanism to replace the content of the indicator with something arbitrarily complicated, that probably won't be via the stylesheet, as that cannot create complex structures within an element. `::before` and `::after` can only contain text or images, not inlining SVGs with their full structure, so that would be limiting.
-    - Inserting complex SVGs via CSS's content property is doable, but cumbersome
+- Most other controls are not that simple and will need a somewhat complex anatomy that cannot be represented by ::before and ::after alone. Since this is part of a system, being consistent has value.
+- Changing the content of `::before` and `::after` is done through stylesheets. If/when we add a mechanism to replace the content of the indicator with something arbitrarily complicated, that probably won't be via the stylesheet, as that cannot create complex structures within an element. `::before` and `::after` can only contain text or images, not inlining SVGs with their full structure, so that would be limiting.
+- Inserting complex SVGs via CSS's content property is doable, but cumbersome
     
 ### What's wrong with SVG as images (as could be used in ::before or ::after)?
 
