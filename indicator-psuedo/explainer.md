@@ -148,22 +148,33 @@ Here is what the CSS the author would need to write in order to achieve example 
 * The `d` attribute is a presentational but in order to utilize it there would need to be another pseudo element on the path(s). There would also need to be a solution to viewbox adjustment from CSS ([Issue 7 in FXTF](https://github.com/w3c/fxtf-drafts/issues/7))
 * While this pseudo-element gets the web platform closer to what authors desire there are still some advanced use cases this does not enable. Should we introduce a new `<checkbox>` element that enables these complex scenarios?
 
-## Other Solutions Considered
+## Other Solutions Considered / FAQ
 
-### Unicode
-One consideration, which is often used by authors in the `::before` or `::after` pseudo-element is to utilize the 2713 unicode code point for checkboxes. Using this unicode code point is an elegant proposal in that all browsers on all operating systems currently use the same graphic provided by the OS; thus achieving interoperability. Below is a reference comparison across iOS, Android, Windows and MacOS and various browsers.
+### Why not use U+2713 as the content of the ::indicator?
 
 ![A reference of different checkmarks across different browsers](unicode-checkmark-comparison.png)
 
-While this is a solid start and would make implementation much simpler this unfortunately does not enable many of the 
-designs that are found across the web today as you can only propogate certain CSS properties, such as `color `in order to modify the color but you can't adjust strokes, joints, fills to the extent that can be done with SVG. Due to these limitations this direcion was abandoned.
+While that glyph is similar in typical environments, it's font dependent, and not identical. In the case of `appearance: auto`, it's perfectly fine to have controls that vary per platform, but here were are aiming for an interoperable base as a starting point for customization. While the differences between various fonts are small on this character are small, they exist, and that's inviting trouble. An author might for example find the glyph they get to be too thin and add something to make it thicker, only to have that be inappropriate on a different OS where it was thick to start with.
 
-### Background images
-When initially exploring the password-reveal pseudo-element we defined it to be a background image. This would allow the author to replace 
-the graphic using an image or the Houdini `paint()` method. This has negative implications in that it came with the following constraints:
+Theoretically, CSS has lots of properties that can let you customize text to a fairly large degree, including `text-stroke` and `text-fill`, but support for them is still more shaky than the equivalent functionality in SVG.
 
-* **Unknown parent styles & anatomy:** While the pseudo element and application of the graphic would be standard. The author would have no insight into how its ancestor tree would be structured nor styled. One concrete example of this was trying to replicate a scenario where the pseudo-element would reside outside of the input but there was an ancestor that couldn't be reached between the pseudo-element & the input. This resulted in the pseudo-element being clipped.
-* **Needing graphic design capabilities:** Using a background-image unlocked some scenarios but it still required an author to produce and asset to replace it. Looking at the accent-color scenarios again the authors had no issues with the graphic but simply the colors. Forcing them to create a graphic to meet their needs just perpetuates the problem.
+As an extension point, we could introduce an additional pseudo that maps to the path element of the SVG, and let you adjust it. We don't yet have all the pieces in place to make that work, but it's a possible next step that isn't available if we start from a glyph, whose structure is definitely opaque. Strictly speaking, we might not need that if/when we add the possibility to replace the whole content of the `::indicator` with an alternate piece of structured markup, but (1) we haven't secured the ability to do that yet, and (2) even if we do, it could be nice to be able to tweak something in place, rather than have to replace the whole thing. Keeping the design extensible and future proof is good, even we don't end up acting on all the possible extension points. SVG offers more than text in that respect.
+
+### Why not just use ::before or ::after?
+
+Checkboxes are simple enough that you can create a believable one with nothing but an empty div and styling the `::before` or `::after` with generated content. However:
+    - Most other controls are not that simple and will need a somewhat complex anatomy that cannot be represented by ::before and ::after alone. Since this is part of a system, being consistent has value.
+    - Changing the content of `::before` and `::after` is done through stylesheets. If/when we add a mechanism to replace the content of the indicator with something arbitrarily complicated, that probably won't be via the stylesheet, as that cannot create complex structures within an element. `::before` and `::after` can only contain text or images, not inlining SVGs with their full structure, so that would be limiting.
+    - Inserting complex SVGs via CSS's content property is doable, but cumbersome
+    
+### What's wrong with SVG as images (as could be used in ::before or ::after)
+
+- Even if you can replace an SVG image with another SVG image that's the same thing with one attribute/property changed, that's nowhere near as convenient as being able to change a property from CSS, and you cannot animate between the two states (which you might want to do on `:hover`, or as a transition in or out of `:checked` for example)
+- SVG-as-images cannot do all the things that inline SVGs can do. It's not clear that many of these things are necessary for a checkbox/radio `::indicator`, but choosing the more expressive / extensible path seems more future proof.
+
+### How can we know we picked the right design for the SVG
+
+We don't expect it to be sufficient to satisfy every design, merely to be sufficiently plain and simple to broadly acceptable and easily tweakable. We do expect that more advanced usage (and possibly future trends) will call for a means to replace it, and we do intend to provide that eventually. In the meanwhile, something like what we proposed here should already cover a lot of ground. (btw, we're not locked onto the particular design showcased here, and are open to alternative suggestions, but we feel it should be something with roughly that level of complexity.)
 
 ## Resources
 
@@ -173,3 +184,4 @@ the graphic using an image or the Houdini `paint()` method. This has negative im
 
 * Melanie Richards, Microsoft
 * Tab Atkins, Google
+* Florian Rivoal
