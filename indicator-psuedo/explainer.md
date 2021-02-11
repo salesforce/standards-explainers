@@ -167,12 +167,12 @@ Checkboxes are simple enough that you can create a believable one with nothing b
     - Changing the content of `::before` and `::after` is done through stylesheets. If/when we add a mechanism to replace the content of the indicator with something arbitrarily complicated, that probably won't be via the stylesheet, as that cannot create complex structures within an element. `::before` and `::after` can only contain text or images, not inlining SVGs with their full structure, so that would be limiting.
     - Inserting complex SVGs via CSS's content property is doable, but cumbersome
     
-### What's wrong with SVG as images (as could be used in ::before or ::after)
+### What's wrong with SVG as images (as could be used in ::before or ::after)?
 
 - Even if you can replace an SVG image with another SVG image that's the same thing with one attribute/property changed, that's nowhere near as convenient as being able to change a property from CSS, and you cannot animate between the two states (which you might want to do on `:hover`, or as a transition in or out of `:checked` for example)
 - SVG-as-images cannot do all the things that inline SVGs can do. It's not clear that many of these things are necessary for a checkbox/radio `::indicator`, but choosing the more expressive / extensible path seems more future proof.
 
-### How can we know we picked the right design for the SVG
+### How can we know we picked the right design for the SVG?
 
 We don't expect it to be sufficient to satisfy every design, merely to be sufficiently plain and simple to broadly acceptable and easily tweakable. We do expect that more advanced usage (and possibly future trends) will call for a means to replace it, and we do intend to provide that eventually. In the meanwhile, something like what we proposed here should already cover a lot of ground. (btw, we're not locked onto the particular design showcased here, and are open to alternative suggestions, but we feel it should be something with roughly that level of complexity.)
 
