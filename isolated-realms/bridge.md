@@ -29,23 +29,23 @@ When a new Realm instance is created, it saves a Symbol that is an id reference 
 
 When the Realm constructor is called with a new target:
 
-  ...
-  Assert: `Realm.[[OutterRealm]]` is initially set to `~empty~`.
-  Assert: `this` is the new Realm instance
-  Let `this.[[RealmId]]` be a new Symbol.
+  - ...
+  - Assert: `Realm.[[OutterRealm]]` is initially set to `~empty~`.
+  - Assert: `this` is the new Realm instance
+  - Let `this.[[RealmId]]` be a new Symbol.
   <!--
-  Assert: `Realm.[[InnerRealms]]` is a List of records `{{Key}, {Value}}`.
-  Let __mapped__ be the Record of `{ {Key}: this.[[RealmId]], {Value}: this }`. // Creates a Record with the new instance 
-  Add __mapped__ to `Realm.[[InnerRealms]]`.
+  - Assert: `Realm.[[InnerRealms]]` is a List of records `{{Key}, {Value}}`.
+  - Let __mapped__ be the Record of `{ {Key}: this.[[RealmId]], {Value}: this }`. // Creates a Record with the new instance 
+  - Add __mapped__ to `Realm.[[InnerRealms]]`.
   -->
-  Bridge: Add `this.[[RealmId]]` to `this.[[BridgeToGlobalThis]].Realm.[[OutterRealm]]`.
-  ...
+  - Bridge: Add `this.[[RealmId]]` to `this.[[BridgeToGlobalThis]].Realm.[[OutterRealm]]`.
+  - ...
 
 When `get id()` is called:
 
   ...
-  // Asserts `this` has a `[[RealmId]]` internal.
-  Returns `this.[[RealmId]]`.
+  - // Asserts `this` has a `[[RealmId]]` internal.
+  - Returns `this.[[RealmId]]`.
 
 
 ## `Realm.from`
@@ -53,9 +53,9 @@ When `get id()` is called:
 `Realm.from` creates a new instance referencing to an existing Realm. When `Realm.from` is called with the argument __id__:
 
   ...
-  Asserts `this` is a valid `Realm` constructor.
-  If __id__ has not the same primitive value of `Realm.[[OutterRealm]]`, throws a TypeError
-  Constructs a new instance of Realm withoout creating a new Realm, but bridging to the identified OutterRealm.
+  - Asserts `this` is a valid `Realm` constructor.
+  - If __id__ has not the same primitive value of `Realm.[[OutterRealm]]`, throws a TypeError
+  - Constructs a new instance of Realm withoout creating a new Realm, but bridging to the identified OutterRealm.
   ...
 
 ## Examples
