@@ -30,13 +30,15 @@ When a new Realm instance is created, it saves a Symbol that is an id reference 
 When the Realm constructor is called with a new target:
 
   ...
-  Assert: `Realm.[[OutterRealms]]` is a List of Symbols initially set to `~empty~`.
-  Assert: `Realm.[[InnerRealms]]` is a List of records `{{Key}, {Value}}`.
+  Assert: `Realm.[[OutterRealm]]` is initially set to `~empty~`.
   Assert: `this` is the new Realm instance
   Let `this.[[RealmId]]` be a new Symbol.
-  Let __mapped__ be the Record of `{ {Key}: this.[[RealmId]], {Value}: this }`. // Creates a Record with the new instance
+  <!--
+  Assert: `Realm.[[InnerRealms]]` is a List of records `{{Key}, {Value}}`.
+  Let __mapped__ be the Record of `{ {Key}: this.[[RealmId]], {Value}: this }`. // Creates a Record with the new instance 
   Add __mapped__ to `Realm.[[InnerRealms]]`.
-  Bridge: Add `this.[[RealmId]]` to `this.[[globalThis]].Realm.[[OutterRealms]]`.
+  -->
+  Bridge: Add `this.[[RealmId]]` to `this.[[BridgeToGlobalThis]].Realm.[[OutterRealm]]`.
   ...
 
 When `get id()` is called:
@@ -52,7 +54,7 @@ When `get id()` is called:
 
   ...
   Asserts `this` is a valid `Realm` constructor.
-  Find the Symbol __id__ of `Realm.[[OutterRealms]]`, if not found, throws a TypeError
+  If __id__ has not the same primitive value of `Realm.[[OutterRealm]]`, throws a TypeError
   Constructs a new instance of Realm withoout creating a new Realm, but bridging to the identified OutterRealm.
   ...
 
