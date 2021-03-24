@@ -54,7 +54,7 @@ try {
 }
 ```
 
-The current Observer model has no control over the given error. This error would bubble out and eventually captured in the `window.onerror`. It would be useful for the Observer instances to provide some control to capture and/or handle the error.
+The current Observer model has no control over the given error. This error would bubble out and eventually be captured in the `window.onerror`. It would be useful for the Observer instances to provide some control to capture and/or handle the error.
 
 While the `.onerror` remains the classic approach for handling errors in window and elements, it doesn't fit well in the Observer the same way it can't add an event listener as in `window.addEventListener`. This matches the idea on [observers API not being based in events](https://github.com/WICG/resize-observer/blob/master/explainer.md#why-an-observer-based-api-and-not-events).
 
