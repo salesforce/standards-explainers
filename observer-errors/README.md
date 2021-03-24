@@ -30,7 +30,7 @@ Some of these errors may already be recognized by each of Observer API's explain
 
 #### Callback executions
 
-Execution errors when the Observer callback function is called. When unhandled, they bubble out of the callback function execution and eventually hit as an window error.
+Execution errors when the Observer callback function is called. When unhandled, they bubble out of the callback function execution and eventually hit as a window error.
 
 One way to exemplify this would be an immediate throwing expression:
 
