@@ -18,7 +18,7 @@ Those are the exceptions thrown when you're setting up a new instance or setting
 
 Another example would be using an invalid argument for the `ResizeObserver`'s callback function. Users can handle this exception today, there is nothing to be done here.
 
-```js
+```javascript
 new ResizeObserver({}); // TypeError
 ```
 
@@ -34,7 +34,7 @@ Execution errors when the Observer callback function is called. When unhandled, 
 
 One way to exemplify this would be an immediate throwing expression:
 
-```js
+```javascript
 new ResizeObserve(function() {
   throw new Error();
 });
@@ -42,7 +42,7 @@ new ResizeObserve(function() {
 
 The error from the callback function cannot be captured from registering the elements through the `.observe` method. The registration does not imply a call to that function.
 
-```js
+```javascript
 const observer = new ResizeObserver(function() {
     throw new Error();
 });
@@ -60,7 +60,7 @@ While the `.onerror` remains the classic approach for handling errors in window 
 
 This proposal tries a less complex solution that uses another callback for catching the errors.
 ​
-```js
+```javascript
 var observer = new ResizeObserver(function(entries) { /* ... */ });
 observer.observe(elem1);
 observer.observe(elem2);
@@ -76,13 +76,13 @@ This `catch` name is heavily inspired on the Promise's API but naming can be dis
 
 It's important to observe that registering the `.catch` callback can remove the bubbling out. It may work as an opt-in to ignore errors:
 
-```js
+```javascript
 observer.catch(function(err) { /* noop */ });
 ```
 
 This method captures errors triggered in the callback function. E.g.:
 
-```js
+```javascript
 var observer = new ResizeObserver(function(entries) {
     throw new Error('meep');
 });
@@ -101,7 +101,7 @@ observer.catch(function(err) {
 
 What it means to call `.catch` more than once? 
 
-```js
+```javascript
 observer.catch(function(err) { console.log('1'); });
 observer.catch(function(err) { console.log('2'); });
 ```
@@ -120,7 +120,7 @@ The catch callback can be used to capture errors triggered in the Observer callb
 
 An alternative for the `.catch` method would be setting the error callback in the Observer constructor. E.g.:
 
-```js
+```javascript
 function fn(entries) { /* noop */ }
 function errCallbackFn(err) { /* noop */ }
 
