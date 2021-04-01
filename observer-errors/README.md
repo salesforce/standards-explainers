@@ -134,16 +134,3 @@ This explainer does not define any way to unregister catch callbacks as there is
 #### Capturing the effects from observed elements
 
 The catch callback can be used to capture errors triggered in the Observer callback but also expanded to error handling as described in the [`Effects within the observable elements`](#effects) section.
-
-#### Setting the error callback in the constructor API
-
-An alternative for the `.catch` method would be setting the error callback in the Observer constructor. E.g.:
-
-```javascript
-function fn(entries) { /* noop */ }
-function errCallbackFn(err) { /* noop */ }
-
-var observer = new ResizeObserver(fn, errCallbackFn);
-```
-
-This model only allows registering error callback once while `.catch()` can be called many times. It gives bad intuition as one could assume the error callback would be called if the Observer constructor (`new ResizeObserver(...)`) fails, which is not a responsibility for this error handling utility.
