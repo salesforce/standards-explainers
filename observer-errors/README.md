@@ -95,6 +95,25 @@ observer.catch(function(err) {
 });
 ```
 
+Note: there isn't any specified way for any `*Observer` to invoke its callback immediately or interrupting the synchronous execution where the `.observe(elem)` are set. If that eventually becomes possible, adding `.catch()` before `.observe()` might be good practice. Therefore, it's important to avoid `.observe()` before `.catch()` within async contexts. E.g.:
+
+```javascript
+var observer = new ResizeObserver(function(entries) {
+    throw new Error('meep');
+});
+
+// Catch is set immediately after the observer instantiation, still within a
+// synchronous execution
+observer.catch(function(err) {
+    console.log(err.message); // 'meep'
+});
+
+// Each await expression will suspend the synchronous exeuction, but .catch
+// was already set to capture errors
+observer.observe(await getElem1());
+observer.observe(await getElem2());
+```
+
 ### Open ended discussions and Variants
 
 #### Multiple catch calls
