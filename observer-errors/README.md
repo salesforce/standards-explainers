@@ -146,4 +146,4 @@ function errCallbackFn(err) { /* noop */ }
 var observer = new ResizeObserver(fn, errCallbackFn);
 ```
 
-Although, this would only allow registering one error callback and it gives bad intuition the error callback can be used the error is triggered by calling the regular callback function `fn`.
+This model only allows registering error callback once while `.catch()` can be called many times. It gives bad intuition as one could assume the error callback would be called if the Observer constructor (`new ResizeObserver(...)`) fails, which is not a responsibility for this error handling utility.
