@@ -127,9 +127,9 @@ observer.catch(function(err) { console.log('2'); });
 
 The current suggestion is for the observer to register every callback, instead of replacing them. This remains [similar to the Promise's `catch`](https://jsfiddle.net/2mpzoLrq/). The error object would be preserved for each call.
 
-#### No definition (yet) to unregister catch callbacks.
+#### No definition (yet) to unregister catch callbacks
 
-This explainer does not define any way to unregister catch callbacks as there is little to no identified value in adding this so far.
+This explainer does not define any way to unregister catch callbacks as there is little to no identified value in adding this so far. If some value were identified, it would probably require some kind of full-blown `addEventListener`/`removeEventListener`model, which seems overkill.
 
 #### Capturing the effects from observed elements
 
