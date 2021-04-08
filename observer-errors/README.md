@@ -1,6 +1,6 @@
 ## Explainer
 
-- __Authors__: [Leo Balter](https://github.com/leobalter), [Greg Whitworth](https://github.com/gregwhitworth), Hayden Lawrence (https://github.com/hlawrencesf), Nolan Lawson (https://github.com/nolanlawson)
+- __Authors__: [Leo Balter](https://github.com/leobalter), [Greg Whitworth](https://github.com/gregwhitworth), [Hayden Lawrence](https://github.com/hlawrencesf), [Nolan Lawson](https://github.com/nolanlawson)
 - __Expected graduation venue__: WHATWG
 - __Status__: Early Draft
 
